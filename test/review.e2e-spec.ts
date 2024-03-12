@@ -9,9 +9,9 @@ import { REVIEW_NOT_FOUND } from '../src/review/review.constans';
 const productId = new Types.ObjectId().toHexString();
 
 const testDto: CreateReviewDto = {
-  name: 'Тест',
-  title: 'Заголовок',
-  description: 'Описание тестовое',
+  name: 'Test',
+  title: 'Title',
+  description: 'Description',
   rating: 5,
   productId,
 };
@@ -29,35 +29,32 @@ describe('AppController (e2e)', () => {
     await app.init();
   });
 
-  it('/review/create (POST) - success', async (done) => {
-    return request(app.getHttpServer())
+  it('/review/create (POST) - success', async () => {
+    return await request(app.getHttpServer())
       .post('/review/create')
       .send(testDto)
       .expect(201)
       .then(({ body }: request.Response) => {
         createdId = body._id;
         expect(createdId).toBeDefined();
-        done();
       });
   });
 
-  it('/review/byProduct/:productId (GET) - success', async (done) => {
-    return request(app.getHttpServer())
+  it('/review/byProduct/:productId (GET) - success', async () => {
+    return await request(app.getHttpServer())
       .get('/review/byProduct/' + productId)
       .expect(200)
       .then(({ body }: request.Response) => {
         expect(body.length).toBe(1);
-        done();
       });
   });
 
-  it('/review/byProduct/:productId (GET) - fail', async (done) => {
-    return request(app.getHttpServer())
+  it('/review/byProduct/:productId (GET) - fail', async () => {
+    return await request(app.getHttpServer())
       .get('/review/byProduct/' + new Types.ObjectId().toHexString())
       .expect(200)
       .then(({ body }: request.Response) => {
         expect(body.length).toBe(0);
-        done();
       });
   });
 
