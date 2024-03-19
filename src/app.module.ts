@@ -1,12 +1,10 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
-import { TopPageModule } from './top-page/top-page.module';
-import { ProductsModule } from './products/products.module';
-import { ReviewModule } from './review/review.module';
+import { ProductModule } from './product/product.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypegooseModule } from 'nestjs-typegoose';
+import { TopPageModel } from './top-page/top-page.model';
+import { ReviewModule } from './review/review.module';
 import { getMongoConfig } from './configs/mongo.config';
 
 @Module({
@@ -18,11 +16,9 @@ import { getMongoConfig } from './configs/mongo.config';
       useFactory: getMongoConfig,
     }),
     AuthModule,
-    TopPageModule,
-    ProductsModule,
+    TopPageModel,
+    ProductModule,
     ReviewModule,
   ],
-  // controllers: [AppController],
-  // providers: [AppService],
 })
 export class AppModule {}
